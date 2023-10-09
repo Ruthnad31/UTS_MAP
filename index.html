@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>My Map</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <link rel="stylesheet" href="./lib/leaflet-measure.css"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.css" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"crossorigin="anonymous">
+
+	
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+	<script src="./lib/leaflet-measure.js"></script>
+	<script src="./aset/geojson_jogja.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.79.0/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+
+	
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 600px;
+			width: 1210px;
+			max-width: 100%;
+			max-height: 100%;
+		}
+        img.huechange { filter: hue-rotate(120deg); }
+
+	</style>
+
+	
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Navigation</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+			aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active">
+					<a class="nav-link" href="https://ruthnad31.github.io/M4_Bootstrap/">Home <span class="sr-only"></span></a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link" href="https://drive.google.com/file/d/1Y7hDNvm4U9mwsJ1YDhlCP16uqkEUm8iG/view?usp=drive_link">Download</a>	
+				</li>
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<button class="btn btn-outline-success my-2 my-sm-0">Lokasi saya</button>
+			</form>
+		</div>
+	</nav>
+	
+
+	
+		
+
+<div id='map'></div>
+
+<script>
+
+const places = L.layerGroup();
+
+
+var mGSP = L.marker([-7.770001, 110.377813]).bindPopup('<h2>This is Grha Sabha Pramana</h2><img src ="./aset/gsp.jpg"><p><a href="https://residence.ugm.ac.id/gsp/">Website Grha Sabha Pramana</a></p><p>Grha Sabha Pramana merupakan gedung pertemuan serbaguna milik Universitas Gadjah Mada yang pengelolaannya diserahkan kepada UGM Residence pada bulan Maret 2015.</p><p>Gedung dengan atap joglo ini dibangun pada tahun 1994 dan diresmikan saat Dies Natalis UGM ke-46 pada tanggal 19 Desember 1995. Gedung ini berfungsi sebagai sentra kegiatan akademik, seperti wisuda, seminar/workshop dan non akademik, seperti pertunjukan musik, seni dan acara pernikahan.</p>').addTo(places); 
+const mGEODESI = L.marker([-7.763958, 110.37275]).bindPopup('<h2>This is Teknik Geodesi</h2><img src ="./aset/geodesy.jpg"><p><a href="https://geodesi.ugm.ac.id/">Website Teknik Geodesi</a></p><p>Departemen Teknik Geodesi (DTGD) Fakultas Teknik Universitas Gadjah Mada merupakan salah satu dari delapan Departemen yang ada di lingkungan Fakultas Teknik UGM.</p><p>Pada awal berdirinya yaitu pada bulan Agustus tahun 1959, DTGD masih merupakan program studi gabungan dengan program studi Teknik Geologi yang bernama Bagian Teknik Geodesi dan Geologi.</p><p>Pada tahun 1962, berdasar UU No. 22 Tahun 1961, Bagian Teknik Geodesi dan Geologi dipecah menjadi dua bagian yaitu Bagian Teknik Geodesi dan Bagian Teknik Geologi yang masing-masing berdiri sendiri-sendiri.</p>').addTo(places);
+const mPARK = L.marker([-7.769379, 110.38283]).bindPopup('<h2>This is Wisdom Park</h2><img src ="./aset/wisdompark.jpg"><p><a href="https://wisata.app/diary/wisdom-park-ugm">Artikel Wisdom Park</a></p><p>Taman kearifan atau yang biasa dikenal dengan nama Wisdom Park merupakan ruang terbuka hijau milik Universitas Gadjah Mada yang dikelola oleh UGM Residence. Banyak kegiatan yang dapat dilakukan di area dengan luas sekitar 6 hektar ini.</p><p>Di pertengahan tahun 2019 Wisdom Park mendapat bantuan dari Kementerian Pekerjaan Umum dan Perumahan Rakyat untuk menambah fasilitas yang ada dan mulai Bulan Januari 2020 fasilitas dan spot baru di Wisdom Park sudah bisa digunakan.</p><p>Adapun fasilitas terbaru yaitu penambahan mushola, toilet, green house, lampu taman, kursi taman, planter box, dan vertical garden di area selatan dan juga penambahan spot baru berupa demaga apung, view deck, dan forest walk di area Danau Bijak Wisdom Park.</p>').addTo(places);
+const mBALAIRUNG = L.marker([-7.767905, 110.378518]).bindPopup('<h2>This is Gedung Pusat UGM</h2><img src ="./aset/balairung.jpg"><p><a href="https://ugm.ac.id/id/berita/3602-gedung-pusat-ugm-simbol-bangunan-modern-pertama-buatan-indonesia/">Artikel Gedung Pusat UGM</a></p><p>Gedung Pusat UGM kini berusia 62 tahun sejak diresmikan pada 19 Desember 1959 oleh Presiden Ir. Soekarno. Gedung tiga lantai di kompleks Bulaksumur ini menandai berdirinya perguruan tinggi pertama yang berhasil dibangun Pemerintah RI pascakemerdekaan. Kini, gedung tersebut masih berdiri megah dan bahkan tetap terlihat kokoh dan kuat.</p><p>Pada awal berdirinya yaitu pada bulan Agustus tahun 1959, DTGD masih merupakan program studi gabungan dengan program studi Teknik Geologi yang bernama Bagian Teknik Geodesi dan Geologi.</p>').addTo(places);
+const mPERPUS = L.marker([-7.765923, 110.372453]).bindPopup('<h2>This is Perpustakaan Teknik</h2><img src ="./aset/perpus.jpg"><p><a href="https://lib.ft.ugm.ac.id/">Website Perpus FT</a></p><p>Perpustakaan Fakultas Teknik (FT) UGM merupakan perpustakaan pada tingkat fakultas. Perpustakaan ini tidak banyak mengelola koleksi cetak, sebagian besar koleksi tersebut dan koleksi cetak khas teknik berada di perpustakaan jurusan.</p>').addTo(places);
+
+
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 25,
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+});
+
+const osmHOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+	maxZoom: 25,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
+});
+
+const map = L.map('map', { 
+	center: [-7.766571, 110.376914],
+	zoom: 13,
+	layers: [osm, places]
+	
+});
+
+L.control.scale({
+	metric: true,
+	imperial:true,
+	maxWidth: 100,
+	position: 'topright'
+}).addTo(map);
+
+
+
+
+
+
+const baseLayers = {
+	'OpenStreetMap': osm,
+	'OpenStreetMap.HOT': osmHOT
+};
+
+const overlays = {
+	'Places': places
+};
+
+const layerControl = L.control.layers(baseLayers, overlays).addTo(map);
+
+
+
+
+
+
+
+
+const openTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 25,
+	attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+});
+layerControl.addBaseLayer(openTopoMap, 'OpenTopoMap');
+
+
+
+var popup = L.popup();
+
+function onMapClick(e) {
+    popup
+        .setLatLng(e.latlng)
+        .setContent("Koordinat titik ini: " + e.latlng.toString())
+        .openOn(map);
+}
+
+map.on('click', onMapClick);
+
+L.Control.geocoder().addTo(map);
+L.control.locate().addTo(map);
+//Leaflet measure
+//L.control.measure.addTo(map);
+
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"crossorigin="anonymous"></script>
+
+
+</body>
+</html>
